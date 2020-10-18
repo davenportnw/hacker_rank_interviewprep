@@ -22,11 +22,18 @@ function rotLeft(a,d) {
             
             
         // }
-   
-        let lastItem = a.slice(-1);
-        console.log('lastitem', lastItem);
+            
+        function lastItem () {
+            let lastItem = a.slice(-1);
+            console.log('lastitem', lastItem);
+            
+            return lastItem
+        }
 
-    
+        
+            let indexOf = a.findIndex(lastItem);
+            console.log('indexOf', indexOf);
+        
         }
         
     }
