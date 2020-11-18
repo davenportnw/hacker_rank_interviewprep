@@ -1,119 +1,97 @@
-//There is a line of people, t (an integer)
-//Each person is labeled with the original position they came.
-//The last persons's label, n
-//q = the given array 
-//Everyone can switch with the person in FRONT of them but only TWO times.
+const { count } = require("console");
 
-const { Cipher } = require("crypto");
-
-//If someone switches more than twice, it is too chaotic
-
-//Return an interger with the minimum amount of bribes that got it to it's current state.  if it's more than too, return "Too Chaotic.".
-
-
-//Find the max number of the array
-// function max(q) {
-//     let maxNumber = q[0];
-//     // console.log('maxNumber', maxNumber);
-    
-//     for(let i=0; i<q.length; i++) {
-//         if(q[i] > maxNumber) {
-//             maxNumber = q[i]
-//         }
-//     }
-
-
-//     for(let i0)
-//     return maxNumber
-
-
-// } 
-
-
-
-
-
-
-
-// function minimumBribes(q) {
-//     //Create a dictionary to keep track of how many times each person swapped.
-//     let swaps = [];
-//     //Find the max number of the array
-//     let maxNum = max(q);
-//     //Create an array that has the inital people in line given the number of people.
-//     let array = [];
-//     //Input the people using the maxNum to the new array
-//     for(let i=1; i<=maxNum; i++){
-//         array.push(i);
-//     }
-//     //Add elements from given array to dictionary.
-//     for(let i=0; i<q.length; i++) {
-//         let key = q[i];
-//         swaps.push({
-//             key: key,
-//             value:0
-//         });
-//     }
-//     let addValue = Object.fromEntries(
-//         Object.entries(swaps).map(([key, value]) => [key, value+1])
-//     );
-    
-//     //How many positions did 1 and 2 move?
-//     for(let i=0; i<q.length; i++){
-//         for(let j=0; j<=array.length; j++) {
-//             if(q[i]===array[j]) {
-//                 let num = array[j].toString();
-//                 console.log('num',num);
-
-//                 console.log("whats it adding?", addValue.num);
-//                 // console.log('q[i]', q[i]);
-                
-//             }
-//         }
-//     }
-//     console.log("swaps", swaps);
-
-// }
 
 
 
 function minimumBribes(q) {
+    // Check Validation
+    // if input is valid
+    if (isValid(q)) {
+        // then do the work
+        countBribes(q);
+    } else {
+        console.log('Too chaotic');
+    }
+}
 
-   let bribes = 0;
 
-
-    // Check to see if we have a invalid Array
-    for (let i=0; i<=q.length; i++) {
+function isValid(q) {  // --> return booleans
+    
+     // Check to see if we have a invalid Array
+     for (let i=0; i<=q.length; i++) {
+        //  console.log('q[i]', q[i]);
+        //  console.log('i', i);
         // A persons original index is their element value minus 1. 
         let originalPlacement = q[i] - 1;
         // console.log('originalPlacement', originalPlacement);
-        // If a person's new index is eqal to their original placement minus 2, then it's too chaotic.
-        // console.log('i',i);
-        // console.log('orginialPlacement', originalPlacement);
-        // console.log('minus2', originalPlacement-2)
-        if(i <= originalPlacement-2) {
-            return 'Too Chaotic'
+        //Find the difference of the origniial position compared to their current position
+        let difference = originalPlacement - i;
+        //      
+
+        // I have to go through the length of the array
+        // If the first difference is less than 2, then go to the next element.
+        if(difference < 2) {
+            continue;
+        }// If a person's difference of their current and original index is more than 2 than it's too chaotic.
+         else if (difference > 2) {
+            return false;
+        } else {
+            return true;
         }
-        // If a person's new index is equal to their element minus 2, then they moved one position.
-        // else if(q[i]-1-i === i) {
-        //     bribes++
-        //     // console.log('bribes', bribes);
-        // } 
-        // If a person's new index is equal to their element minus 1, then they moved 2 positions.
-        // else if(q[i]-1===i) {
-        //     bribes =+2;
-        //     // console.log('bribes', bribes);
+        // If a person's difference of their current and original index is more than 2 than it's too chaotic.
+        // if(difference > 2) {
+        //    return false;
+        // } else {
+        //     return true;
         // }
     }
 }
 
-// let q = [1,2,3];
+
+function countBribes(q) {
+    let bribes = 0;
+
+    // We are going from the end of the line to the front of the line
+    // To find the originalPlacement we are looking for, we will add 1 to our current index
+    // if our originalPlacement is equal to q[i-1], swap the placement and add 1 to bribes.
+    // if our originalPlacement is equal to q[i-2], swap the placement and add 2 to bribes.
+
+    for(let i=q.length-1; i >=0; i--) {
+        let originalPlacement = i + 1;
+        if(q[i-1]===originalPlacement){
+            let temp = q[i-1];
+            q[i-1]=q[i];
+            q[i]=temp; 
+            bribes++;
+        }
+        if(q[i-2]===originalPlacement) {
+            let temp = q[i-2];
+            q[i-2]=q[i-1];
+            q[i-1]=q[i];
+            q[i]=temp;
+            bribes+=2;
+        }
+    }
+    console.log(bribes);
+    
+}
+
+// let q = [1,2,5,3,4,7,8,6];
+// expected output is 4
+
+// let q = [4,1,2,3,4];
+// let q = [2,1,5,3,4];
+// let q = [1,4,2,3,5];
 
 // let q = [2,5,1,3,4];
-// let q = [1,4,2,3,5];
-//Answer should be too chaotic
+// print too chaotic
+
+let q = [1,2,5,3,7,8,6,4];
+//print 7
 
 
+
+// console.log(countBribes(q));
 console.log(minimumBribes(q));
 // console.log(max(q));
 
@@ -124,4 +102,14 @@ console.log(minimumBribes(q));
 
 //Determine the switches for EACH positoin 
 
+ // If a person's new index is equal to their element minus 2, then they moved one position.
+        // else if(q[i]-1-i === i) {
+        //     bribes++
+        //     // console.log('bribes', bribes);
+        // } 
+        // If a person's new index is equal to their element minus 1, then they moved 2 positions.
+        // else if(q[i]-1===i) {
+        //     bribes =+2;
+        //     // console.log('bribes', bribes);
+        // }
 
