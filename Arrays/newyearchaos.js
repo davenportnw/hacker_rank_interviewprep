@@ -15,7 +15,7 @@ function minimumBribes(q) {
 }
 
 
-function isValid(q) {  // --> return booleans
+function isValid(q) {  // --> return boolean
     
      // Check to see if we have a invalid Array
      for (let i=0; i<=q.length; i++) {
@@ -57,14 +57,14 @@ function countBribes(q) {
     // if our originalPlacement is equal to q[i-2], swap the placement and add 2 to bribes.
 
     for(let i=q.length-1; i >=0; i--) {
-        let originalPlacement = i + 1;
-        if(q[i-1]===originalPlacement){
+        
+      
+        if(q[i-1]===i+1){
             let temp = q[i-1];
             q[i-1]=q[i];
             q[i]=temp; 
             bribes++;
-        }
-        if(q[i-2]===originalPlacement) {
+        } else if(q[i-2]===originalPlacement) {
             let temp = q[i-2];
             q[i-2]=q[i-1];
             q[i-1]=q[i];
